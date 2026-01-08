@@ -1,0 +1,41 @@
+<h2>Miniaturas</h2>
+
+@if (loading()) {
+  <p>Carregando...</p>
+}
+
+@if (error()) {
+  <p class="error">Erro ao carregar miniaturas</p>
+}
+
+@if (!loading() && vehicles().length === 0) {
+  <p>Nenhuma miniatura cadastrada</p>
+}
+
+@if (vehicles().length > 0) {
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Escala</th>
+        <th>Marca do Veículo</th>
+        <th>Marca Diecast</th>
+        <th>Cor</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (v of vehicles(); track v.id) {
+        <tr>
+          <td>{{ v.id }}</td>
+          <td>{{ v.name }}</td>
+          <td>{{ v.scale }}</td>
+          <td>{{ v.vehicleBrand }}</td>
+          <td>{{ v.vehicleDiecastBrand }}</td>
+          <td>{{ v.color }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

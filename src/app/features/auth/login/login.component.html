@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+
+  <h2>Diecast</h2>
+
+  <input
+    type="text"
+    formControlName="username"
+    placeholder="Usuário"
+    [class.input-error]="hasFieldError('username')">
+
+  <input
+    type="password"
+    formControlName="password"
+    placeholder="Senha"
+    [class.input-error]="hasFieldError('password')">
+
+  <button type="submit">Entrar</button>
+
+  @if (error()) {
+    <p class="error-message">
+      Usuário ou senha inválidos
+    </p>
+  }
+
+</form>
