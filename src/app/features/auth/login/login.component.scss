@@ -1,0 +1,33 @@
+.error {
+  color: #d32f2f;
+}
+
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 300px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  border-color: #1976d2;
+}
+
+.input-error {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 1px rgba(211, 47, 47, 0.2);
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 14px;
+}
