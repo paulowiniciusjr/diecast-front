@@ -6,27 +6,27 @@ Projeto pessoal para catalogação de veículos diecast, desenvolvido com Java +
 
 O sistema permite:
 
-Autenticação de usuários via JWT
+- Autenticação de usuários via JWT
 
-Acesso seguro a endpoints protegidos
+- Acesso seguro a endpoints protegidos
 
-Listagem e gerenciamento de veículos em miniatura
+- Listagem e gerenciamento de veículos em miniatura
 
-A arquitetura foi pensada para ser escalável, segura e de fácil manutenção, utilizando boas práticas atuais tanto no backend quanto no frontend.
+- A arquitetura foi pensada para ser escalável, segura e de fácil manutenção, utilizando boas práticas atuais tanto no backend quanto no frontend.
 
 
 ## 🎨 Frontend
 🔧 Stack
 
-Angular 20
+- Angular 20
 
-Standalone Components (sem NgModules)
+- Standalone Components (sem NgModules)
 
-TypeScript strict
+- TypeScript strict
 
-HttpClient com fetch
+- HttpClient com fetch
 
-RxJS
+- RxJS
 
 ## 🧠 Arquitetura do Frontend
 
@@ -45,31 +45,31 @@ app/
 
 StorageService
 
-Centraliza acesso ao localStorage
+- Centraliza acesso ao localStorage
 
-Gerencia o token JWT
+- Gerencia o token JWT
 
 Guards
 
-AuthGuard (funcional)
+- AuthGuard (funcional)
 
-Protege rotas autenticadas
+- Protege rotas autenticadas
 
-Redireciona para /login quando não autenticado
+- Redireciona para /login quando não autenticado
 
 ## 🔁 HTTP Interceptor
 
 Interceptor funcional (HttpInterceptorFn)
 
-Injeta automaticamente o token JWT em todas as requisições:
+- Injeta automaticamente o token JWT em todas as requisições:
 
-Authorization: Bearer <token>
+- Authorization: Bearer <token>
 
 Benefícios:
 
-Elimina repetição de código
+- Elimina repetição de código
 
-Centraliza autenticação HTTP
+- Centraliza autenticação HTTP
 
 ## 🎯 Features
 
@@ -84,19 +84,19 @@ features/
 
 Isso garante:
 
-Alta coesão
+- Alta coesão
 
-Baixo acoplamento
+- Baixo acoplamento
 
-Facilidade de evolução
+- Facilidade de evolução
 
 ## 🧱 Layout
 
-LayoutComponent
+- LayoutComponent
 
-HeaderComponent
+- HeaderComponent
 
-Uso de RouterOutlet aninhado
+- Uso de RouterOutlet aninhado
 
 ## 🏁 Conclusão
 
