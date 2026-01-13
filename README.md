@@ -1,4 +1,4 @@
-# 🚗 Diecast – Catálogo de Veículos em Miniatura
+# 🚗 Diecast – Catálogo de Veículos em Miniatura - FRONTEND
 
 Projeto pessoal para catalogação de veículos diecast, desenvolvido com Java + Spring Boot no backend e Angular 20 no frontend, seguindo padrões modernos de arquitetura, segurança e organização de código.
 
