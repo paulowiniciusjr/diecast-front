@@ -2,7 +2,7 @@
 
 Projeto pessoal para catalogação de veículos diecast, desenvolvido com Java + Spring Boot no backend e Angular 20 no frontend, seguindo padrões modernos de arquitetura, segurança e organização de código.
 
-📌 Visão Geral
+## 📌 Visão Geral
 
 O sistema permite:
 
@@ -15,7 +15,7 @@ Listagem e gerenciamento de veículos em miniatura
 A arquitetura foi pensada para ser escalável, segura e de fácil manutenção, utilizando boas práticas atuais tanto no backend quanto no frontend.
 
 
-🎨 Frontend
+## 🎨 Frontend
 🔧 Stack
 
 Angular 20
@@ -28,16 +28,20 @@ HttpClient com fetch
 
 RxJS
 
-🧠 Arquitetura do Frontend
+## 🧠 Arquitetura do Frontend
 
 O frontend segue o padrão feature-based + core + layout, recomendado para aplicações Angular modernas:
 
+
+```python
 app/
 ├── core/
 ├── features/
 ├── layout/
 🧩 Core
-Services
+```
+
+## Services
 
 StorageService
 
@@ -53,7 +57,7 @@ Protege rotas autenticadas
 
 Redireciona para /login quando não autenticado
 
-🔁 HTTP Interceptor
+## 🔁 HTTP Interceptor
 
 Interceptor funcional (HttpInterceptorFn)
 
@@ -67,14 +71,16 @@ Elimina repetição de código
 
 Centraliza autenticação HTTP
 
-🎯 Features
+## 🎯 Features
 
 Cada funcionalidade é isolada em sua própria pasta:
 
+```python
 features/
 ├── auth/
 │   └── login/
 ├── vehicles/
+```
 
 Isso garante:
 
@@ -84,7 +90,7 @@ Baixo acoplamento
 
 Facilidade de evolução
 
-🧱 Layout
+## 🧱 Layout
 
 LayoutComponent
 
@@ -92,9 +98,6 @@ HeaderComponent
 
 Uso de RouterOutlet aninhado
 
-Separação clara entre:
+## 🏁 Conclusão
 
-Telas públicas (login)
-
-Telas autenticadas (sistema)
-
+O projeto Diecast foi desenvolvido seguindo padrões modernos de arquitetura e desenvolvimento, com foco em segurança, organização de código e escalabilidade. A base atual permite evolução fácil para novas funcionalidades como CRUD completo, controle de permissões mais avançado e melhorias de UX.
