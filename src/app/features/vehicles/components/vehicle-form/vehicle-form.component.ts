@@ -1,0 +1,82 @@
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Vehicle } from '../../models/vehicle.model';
+
+@Component({
+  selector: 'app-vehicle-form',
+  standalone: true,
+  templateUrl: './vehicle-form.component.html',
+  styleUrls: ['./vehicle-form.component.scss'],
+  imports: [CommonModule, ReactiveFormsModule]
+})
+export class VehicleFormComponent implements OnChanges {
+
+  @Input() vehicle?: Vehicle;
+
+  @Output() save = new EventEmitter<Vehicle>();
+  @Output() cancel = new EventEmitter<void>();
+
+  form!: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      scale: ['', Validators.required],
+      vehicleBrand: ['', Validators.required],
+      vehicleDiecastBrand: ['', Validators.required],
+      color: ['', Validators.required],
+    });
+  }
+
+  ngOnChanges() {
+    if (this.vehicle) {
+      this.form.patchValue(this.vehicle);
+    } else {
+      this.form.reset();
+    }
+  }
+
+  /*
+  submit() {
+    console.log('submit called');
+    console.log('this.form.valid: ' + this.form.valid);
+    if (this.form.valid) {
+      this.save.emit({
+        ...this.vehicle,
+        ...this.form.value
+      } as Vehicle);
+    }
+  }
+    */
+
+  /*
+  submit() {
+    if (this.form.invalid) return;
+
+    this.save.emit({
+      ...this.form.value,
+      id: this.vehicle?.id
+    });
+  }
+    */
+
+
+  submit() {
+    // força o Angular a sincronizar o estado AGORA
+    this.form.markAllAsTouched();
+    //this.form.updateValueAndValidity();
+
+    if (this.form.invalid) return;
+
+    this.save.emit({
+      ...this.form.value,
+      id: this.vehicle?.id
+    });
+  }
+
+
+
+}
+
+

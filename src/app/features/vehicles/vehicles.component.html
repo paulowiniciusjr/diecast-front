@@ -1,41 +1,26 @@
-<h2>Miniaturas</h2>
+<button (click)="create()" *ngIf="!showForm">+ Novo Veículo</button>
+<br>
 
-@if (loading()) {
-  <p>Carregando...</p>
-}
+<ng-container *ngIf="!showForm">
+  <app-vehicle-list
+    [vehicles]="vehicles"
+    (edit)="edit($event)"
+    (remove)="askDelete($event)">
+  </app-vehicle-list>
+</ng-container>
 
-@if (error()) {
-  <p class="error">Erro ao carregar miniaturas</p>
-}
+<app-confirm-dialog
+  *ngIf="vehicleToDelete"
+  message="Deseja realmente excluir este veículo?"
+  (confirm)="confirmDelete()"
+  (cancel)="cancelDelete()">
+</app-confirm-dialog>
 
-@if (!loading() && vehicles().length === 0) {
-  <p>Nenhuma miniatura cadastrada</p>
-}
 
-@if (vehicles().length > 0) {
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Escala</th>
-        <th>Marca do Veículo</th>
-        <th>Marca Diecast</th>
-        <th>Cor</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      @for (v of vehicles(); track v.id) {
-        <tr>
-          <td>{{ v.id }}</td>
-          <td>{{ v.name }}</td>
-          <td>{{ v.scale }}</td>
-          <td>{{ v.vehicleBrand }}</td>
-          <td>{{ v.vehicleDiecastBrand }}</td>
-          <td>{{ v.color }}</td>
-        </tr>
-      }
-    </tbody>
-  </table>
-}
+<ng-container *ngIf="showForm">
+  <app-vehicle-form
+    [vehicle]="selectedVehicle"
+    (save)="onSave($event)"
+    (cancel)="onCancel()">
+  </app-vehicle-form>
+</ng-container>

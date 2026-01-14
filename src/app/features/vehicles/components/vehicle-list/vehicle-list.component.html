@@ -1,0 +1,28 @@
+<table border="1" cellpadding="8">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Escala</th>
+      <th>Marca do Veículo</th>
+      <th>Marca Diecast</th>
+      <th>Cor</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let v of vehicles">
+      <td>{{ v.id }}</td>
+      <td>{{ v.name }}</td>
+      <td>{{ v.scale }}</td>
+      <td>{{ v.vehicleBrand }}</td>
+      <td>{{ v.vehicleDiecastBrand }}</td>
+      <td>{{ v.color }}</td>
+      <td>
+        <button type="button" (click)="edit.emit(v)">Editar</button>
+        <button type="button" (click)="remove.emit(v)">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

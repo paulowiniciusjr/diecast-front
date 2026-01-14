@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Vehicle } from './vehicle.model';
+import { Vehicle } from './models/vehicle.model';
 
 @Injectable({ providedIn: 'root' })
 export class VehiclesService {
 
-  private readonly API = 'http://localhost:8080/api/vehicles';
+  private readonly apiUrl = 'http://localhost:8080/api/vehicles';
 
   constructor(private http: HttpClient) {}
 
-  findAll(): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(this.API);
+  getAll(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(this.apiUrl);
+  }
+
+  create(vehicle: Vehicle): Observable<Vehicle> {
+    return this.http.post<Vehicle>(this.apiUrl, vehicle);
+  }
+
+  update(id: number, vehicle: Vehicle): Observable<Vehicle> {
+    return this.http.put<Vehicle>(`${this.apiUrl}/${id}`, vehicle);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

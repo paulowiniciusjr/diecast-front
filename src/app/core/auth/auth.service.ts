@@ -21,7 +21,7 @@ export class AuthService {
 
   login(username: string, password: string) {
 
-console.log('LOGIN SERVICE CHAMADO', username);
+    console.log('LOGIN SERVICE CHAMADO', username);
 
     return this.http.post<any>(`${this.API}/login`, {
       username,
@@ -38,4 +38,5 @@ console.log('LOGIN SERVICE CHAMADO', username);
     this.tokenService.clear();
     this.isAuthenticated.set(false);
   }
+  
 }
