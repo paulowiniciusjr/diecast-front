@@ -1,6 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
-
-
+<form [formGroup]="form">
   <label>
     Nome
     <input formControlName="name" />
@@ -27,14 +25,15 @@
   </label>
 
   <div class="actions">
-    <!--button type="button" (click)="submit()" [disabled]="form.invalid"-->
-    <button type="submit" >
-      Salvar
+    <button
+      type="button"
+      (click)="submit()"
+      [disabled]="form.invalid || submitting">
+      {{ submitting ? 'Salvando...' : 'Salvar' }}
     </button>
 
     <button type="button" (click)="cancel.emit()">
       Voltar
     </button>
   </div>
-
 </form>

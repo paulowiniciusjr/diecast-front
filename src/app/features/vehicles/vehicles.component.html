@@ -1,26 +1,46 @@
+<p *ngIf="vehicles.length === 0 && !loading">
+  Nenhum veículo cadastrado.
+</p>
+
+
+<!-- FEEDBACK -->
+<p *ngIf="message" class="message">
+  {{ message }}
+</p>
+
+<!-- LOADING -->
+<p *ngIf="loading" class="loading">
+  Carregando veículos...
+</p>
+
+<!-- EMPTY STATE -->
+<div *ngIf="!loading && vehicles.length === 0 && !showForm">
+  <p>Nenhum veículo cadastrado.</p>
+  <button (click)="create()">Cadastrar primeiro veículo</button>
+</div>
 <button (click)="create()" *ngIf="!showForm">+ Novo Veículo</button>
 <br>
 
-<ng-container *ngIf="!showForm">
-  <app-vehicle-list
-    [vehicles]="vehicles"
-    (edit)="edit($event)"
+
+<!--ng-container *ngIf="!showForm"-->
+<ng-container *ngIf="!loading && vehicles.length > 0 && !showForm">
+  <app-vehicle-list 
+    [vehicles]="vehicles" 
+    (edit)="edit($event)" 
     (remove)="askDelete($event)">
   </app-vehicle-list>
 </ng-container>
 
-<app-confirm-dialog
-  *ngIf="vehicleToDelete"
-  message="Deseja realmente excluir este veículo?"
-  (confirm)="confirmDelete()"
+<app-confirm-dialog *ngIf="vehicleToDelete" message="Deseja realmente excluir este veículo?" (confirm)="confirmDelete()"
   (cancel)="cancelDelete()">
 </app-confirm-dialog>
 
 
 <ng-container *ngIf="showForm">
-  <app-vehicle-form
-    [vehicle]="selectedVehicle"
-    (save)="onSave($event)"
+  <app-vehicle-form 
+    [vehicle]="selectedVehicle" 
+    [submitting]="submitting"
+    (save)="onSave($event)" 
     (cancel)="onCancel()">
   </app-vehicle-form>
 </ng-container>

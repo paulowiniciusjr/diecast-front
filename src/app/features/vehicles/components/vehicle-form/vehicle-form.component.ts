@@ -17,6 +17,9 @@ export class VehicleFormComponent implements OnChanges {
   @Output() save = new EventEmitter<Vehicle>();
   @Output() cancel = new EventEmitter<void>();
 
+  @Input() submitting = false;
+
+
   form!: FormGroup;
 
   constructor(private fb: FormBuilder) {
@@ -61,22 +64,32 @@ export class VehicleFormComponent implements OnChanges {
   }
     */
 
+  /*
+    submit() {
+      // força o Angular a sincronizar o estado AGORA
+      this.form.markAllAsTouched();
+      //this.form.updateValueAndValidity();
+  
+      if (this.form.invalid) return;
+  
+      this.save.emit({
+        ...this.form.value,
+        id: this.vehicle?.id
+      });
+    }
+  */
 
-  submit() {
-    // força o Angular a sincronizar o estado AGORA
-    this.form.markAllAsTouched();
-    //this.form.updateValueAndValidity();
-
+  submit(): void {
     if (this.form.invalid) return;
 
     this.save.emit({
       ...this.form.value,
       id: this.vehicle?.id
     });
+
+    setTimeout(() => {
+      this.cancel.emit();
+    }, 1000);
   }
 
-
-
 }
-
-
