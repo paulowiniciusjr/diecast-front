@@ -1,13 +1,14 @@
-import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TokenService } from './token.service';
+import { Injectable, signal } from '@angular/core';
 import { tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { StorageService } from '../storage/storage.service';
+import { TokenService } from './token.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private readonly API = 'http://localhost:8080/auth';
+  private readonly API = `${environment.apiUrl}auth`;
 
   isAuthenticated = signal<boolean>(false);
 
