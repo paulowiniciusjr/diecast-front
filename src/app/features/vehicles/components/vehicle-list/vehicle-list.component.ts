@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Vehicle } from '../../models/vehicle.model';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 
 @Component({
@@ -9,7 +10,13 @@ import { Vehicle } from '../../models/vehicle.model';
   imports: [CommonModule],
   templateUrl: 'vehicle-list.component.html'
 })
-export class VehicleListComponent {
+export class VehicleListComponent implements OnInit {
+
+  constructor(public authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.authService.loadMe();
+  }
 
   @Input() vehicles: Vehicle[] = [];
 

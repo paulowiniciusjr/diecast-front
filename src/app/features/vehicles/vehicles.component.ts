@@ -8,6 +8,7 @@ import { VehiclesService } from './vehicles.service';
 import { ConfirmDialogComponent } from '../../confirm-dialog.component';
 import { finalize } from 'rxjs';
 import { ToastService } from '../../core/toast/toast.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-vehicles',
@@ -30,14 +31,15 @@ export class VehiclesComponent implements OnInit {
   message = '';
   submitting = false;
 
-
   constructor(private service: VehiclesService,
     private router: ActivatedRoute,
-    private toast: ToastService) {
+    private toast: ToastService,
+    public authService: AuthService) {
     this.vehicles = [...this.router.snapshot.data['vehicles']];
   }
 
   ngOnInit(): void {
+    this.authService.loadMe();
   }
 
 
