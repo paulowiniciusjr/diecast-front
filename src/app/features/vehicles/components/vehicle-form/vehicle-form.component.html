@@ -20,15 +20,15 @@
   </label>
 
   <label>
-    Cor
-    <input formControlName="color" />
+    Cor    
+    <input formControlName="color"  />
   </label>
 
   <div class="actions">
     <button
       type="button"
       (click)="submit()"
-      [disabled]="form.invalid || submitting">
+      [disabled]="form.invalid || submitting || mode === 'view'">
       {{ submitting ? 'Salvando...' : 'Salvar' }}
     </button>
 

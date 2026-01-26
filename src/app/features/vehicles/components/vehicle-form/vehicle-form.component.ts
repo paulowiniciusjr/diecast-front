@@ -18,6 +18,8 @@ export class VehicleFormComponent implements OnChanges {
   @Output() cancel = new EventEmitter<void>();
 
   @Input() submitting = false;
+  @Input() mode: 'view' | 'edit' | 'create' = 'create';
+
 
 
   form!: FormGroup;
@@ -37,6 +39,12 @@ export class VehicleFormComponent implements OnChanges {
       this.form.patchValue(this.vehicle);
     } else {
       this.form.reset();
+    }
+
+    if (this.mode === 'view') {
+      this.form.disable();
+    } else {
+      this.form.enable();
     }
   }
 

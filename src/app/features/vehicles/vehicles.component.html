@@ -13,7 +13,7 @@
   <p>Nenhum veículo cadastrado.</p>
   <button (click)="create()">Cadastrar primeiro veículo</button>
 </div>
-<button (click)="create()" *ngIf="!showForm && authService.isAdmin()">+ Novo Veículo</button>
+<button (click)="create()" *ngIf="!showForm && authService.isPermission()">+ Novo Veículo</button>
 <br>
 
 
@@ -22,7 +22,8 @@
   <app-vehicle-list 
     [vehicles]="vehicles" 
     (edit)="edit($event)" 
-    (remove)="askDelete($event)">
+    (remove)="askDelete($event)"    
+    (show)="view($event)">
   </app-vehicle-list>
 </ng-container>
 
@@ -34,6 +35,7 @@
 <ng-container *ngIf="showForm">
   <app-vehicle-form 
     [vehicle]="selectedVehicle" 
+    [mode]="formMode"
     [submitting]="submitting"
     (save)="onSave($event)" 
     (cancel)="onCancel()">

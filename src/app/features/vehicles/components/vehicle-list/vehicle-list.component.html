@@ -20,9 +20,9 @@
       <td>{{ v.vehicleDiecastBrand }}</td>
       <td>{{ v.color }}</td>
       <td>
-        <button type="button" (click)="edit.emit(v)" *ngIf="authService.isAdmin()">Editar</button>
-        <button type="button" (click)="remove.emit(v)" *ngIf="authService.isAdmin()">Excluir</button>
-        <button type="button" >Visualizar</button>
+        <button type="button" (click)="edit.emit(v)" *ngIf="authService.isPermission()">Editar</button>
+        <button type="button" (click)="remove.emit(v)" *ngIf="authService.isPermission()">Excluir</button>
+        <button type="button" (click)="show.emit(v)" *ngIf="authService.isPermission()">Visualizar</button>        
       </td>
     </tr>
   </tbody>

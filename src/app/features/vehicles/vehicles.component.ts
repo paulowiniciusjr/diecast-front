@@ -10,6 +10,8 @@ import { finalize } from 'rxjs';
 import { ToastService } from '../../core/toast/toast.service';
 import { AuthService } from '../../core/auth/auth.service';
 
+
+
 @Component({
   selector: 'app-vehicles',
   standalone: true,
@@ -24,12 +26,14 @@ import { AuthService } from '../../core/auth/auth.service';
 export class VehiclesComponent implements OnInit {
 
   vehicles: Vehicle[] = [];
+  formMode: 'view' | 'edit' | 'create' = 'create';
   selectedVehicle?: Vehicle;
   showForm = false;
   vehicleToDelete?: Vehicle;
   loading = false;
   message = '';
   submitting = false;
+  
 
   constructor(private service: VehiclesService,
     private router: ActivatedRoute,
@@ -39,6 +43,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.authService.loadMe();
   }
 
@@ -56,12 +61,20 @@ export class VehiclesComponent implements OnInit {
   }
 
 
-  create(): void {    
+  create(): void {
+    this.formMode = 'create';    
     this.selectedVehicle = undefined;
     this.showForm = true;
   }
 
-  edit(vehicle: Vehicle): void {    
+  edit(vehicle: Vehicle): void {
+    this.formMode = 'edit';
+    this.selectedVehicle = vehicle;
+    this.showForm = true;
+  }
+
+  view(vehicle: Vehicle): void {    
+    this.formMode = 'view';
     this.selectedVehicle = vehicle;
     this.showForm = true;
   }
@@ -115,8 +128,6 @@ export class VehiclesComponent implements OnInit {
   }
 
   confirmDelete() {
-    //console.log('confirmDelete');
-    //setTimeout(() => {
     if (!this.vehicleToDelete) return;
 
     this.service.delete(this.vehicleToDelete.id!).subscribe(() => {
@@ -125,8 +136,6 @@ export class VehiclesComponent implements OnInit {
       );
       this.vehicleToDelete = undefined;
     });
-    //}, 1000);
-
   }
 
   cancelDelete() {

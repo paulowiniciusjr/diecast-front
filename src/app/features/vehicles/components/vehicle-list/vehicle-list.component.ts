@@ -23,4 +23,5 @@ export class VehicleListComponent implements OnInit {
   @Output() create = new EventEmitter<void>();
   @Output() edit = new EventEmitter<Vehicle>();
   @Output() remove = new EventEmitter<Vehicle>();
+  @Output() show = new EventEmitter<Vehicle>();
 }

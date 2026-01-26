@@ -59,6 +59,10 @@ export class AuthService {
     return this.meSubject.value?.role === 'USER';
   }
 
+  isPermission() : boolean {
+    return this.isAdmin() || this.isUser();
+  }
+
   register(username: string, password: string) {
     return this.http.post<any>(`${this.API}/register`, {
       username,
