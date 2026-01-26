@@ -36,6 +36,7 @@ export class AuthService {
       tap(response => {        
         this.tokenService.save(response.token, response.expiresIn);
         this.isAuthenticated.set(true);
+        this.loadMe();
       })
     );
   }
@@ -54,7 +55,7 @@ export class AuthService {
     return this.meSubject.value?.role === 'ADMIN';
   }
 
-  isUser(): boolean {
+  isUser(): boolean {    
     return this.meSubject.value?.role === 'USER';
   }  
   
