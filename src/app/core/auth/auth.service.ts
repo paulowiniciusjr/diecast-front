@@ -8,14 +8,14 @@ import { AuthMeResponse } from './auth.models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  
+
   private readonly API = `${environment.apiUrl}auth`;
-  
+
   isAuthenticated = signal<boolean>(false);
-  
+
   private meSubject = new BehaviorSubject<AuthMeResponse | null>(null);
-  me$ = this.meSubject.asObservable();  
-  
+  me$ = this.meSubject.asObservable();
+
   constructor(
     private http: HttpClient,
     private tokenService: TokenService,
@@ -33,7 +33,7 @@ export class AuthService {
       username,
       password
     }).pipe(
-      tap(response => {        
+      tap(response => {
         this.tokenService.save(response.token, response.expiresIn);
         this.isAuthenticated.set(true);
         this.loadMe();
@@ -55,8 +55,16 @@ export class AuthService {
     return this.meSubject.value?.role === 'ADMIN';
   }
 
-  isUser(): boolean {    
+  isUser(): boolean {
     return this.meSubject.value?.role === 'USER';
-  }  
-  
+  }
+
+  register(username: string, password: string) {
+    return this.http.post<any>(`${this.API}/register`, {
+      username,
+      password
+    });
+  }
+
+
 }

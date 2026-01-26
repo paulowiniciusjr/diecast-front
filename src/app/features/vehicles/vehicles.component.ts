@@ -46,7 +46,7 @@ export class VehiclesComponent implements OnInit {
   loadVehicles(): void {
     this.loading = true;
 
-    this.service.getAll().subscribe({
+    this.service.getMyVehicles().subscribe({
       next: data => this.vehicles = data,
       error: () => {        
         this.toast.showError('Erro ao carregar veículos.');

@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
 
 interface LoginForm {
@@ -11,7 +11,7 @@ interface LoginForm {
 @Component({
   standalone: true,
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -45,15 +45,6 @@ export class LoginComponent {
     const username = this.form.controls.username.value;
     const password = this.form.controls.password.value;
 
-    /*
-    this.authService.login(username, password).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
-      error: () => {
-        this.error.set(true);
-        this.form.setErrors({ invalidCredentials: true });
-      }
-    });
-    */
 
     this.authService.login(username, password).subscribe({
       next: () => {
@@ -63,9 +54,6 @@ export class LoginComponent {
         this.error.set(true);
       }
     });
-
-
-
   }
 
   hasFieldError(field: keyof LoginForm): boolean {

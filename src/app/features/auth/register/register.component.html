@@ -1,0 +1,22 @@
+<h2>Criar Conta</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <label>
+    Usuário
+    <input formControlName="username">
+  </label>
+
+  <label>
+    Senha
+    <input type="password" formControlName="password">
+  </label>
+
+  <button type="submit" [disabled]="form.invalid || loading">
+    {{ loading ? 'Criando...' : 'Cadastrar' }}
+  </button>
+
+  <p *ngIf="error" style="color:red">{{ error }}</p>
+  <p *ngIf="success" style="color:green">{{ success }}</p>
+
+</form>

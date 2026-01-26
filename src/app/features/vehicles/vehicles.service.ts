@@ -6,14 +6,18 @@ import { Vehicle } from './models/vehicle.model';
 
 @Injectable({ providedIn: 'root' })
 export class VehiclesService {
-  
+
   private readonly apiUrl = `${environment.apiUrl}api/vehicles`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(this.apiUrl);
   }
+
+  getMyVehicles(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(`${this.apiUrl}/me`);
+  }  
 
   create(vehicle: Vehicle): Observable<Vehicle> {
     return this.http.post<Vehicle>(this.apiUrl, vehicle);

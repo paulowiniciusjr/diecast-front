@@ -11,6 +11,6 @@ export class VehiclesResolver implements Resolve<Vehicle[]> {
   constructor(private service: VehiclesService) {}
 
   resolve(): Observable<Vehicle[]> {
-    return this.service.getAll();
+    return this.service.getMyVehicles();
   }
 }

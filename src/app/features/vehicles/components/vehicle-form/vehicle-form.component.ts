@@ -40,45 +40,6 @@ export class VehicleFormComponent implements OnChanges {
     }
   }
 
-  /*
-  submit() {
-    console.log('submit called');
-    console.log('this.form.valid: ' + this.form.valid);
-    if (this.form.valid) {
-      this.save.emit({
-        ...this.vehicle,
-        ...this.form.value
-      } as Vehicle);
-    }
-  }
-    */
-
-  /*
-  submit() {
-    if (this.form.invalid) return;
-
-    this.save.emit({
-      ...this.form.value,
-      id: this.vehicle?.id
-    });
-  }
-    */
-
-  /*
-    submit() {
-      // força o Angular a sincronizar o estado AGORA
-      this.form.markAllAsTouched();
-      //this.form.updateValueAndValidity();
-  
-      if (this.form.invalid) return;
-  
-      this.save.emit({
-        ...this.form.value,
-        id: this.vehicle?.id
-      });
-    }
-  */
-
   submit(): void {
     if (this.form.invalid) return;
 
