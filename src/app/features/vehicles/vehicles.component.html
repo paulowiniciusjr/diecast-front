@@ -1,43 +1,86 @@
-<!-- FEEDBACK -->
-<p *ngIf="message" class="message">
-  {{ message }}
-</p>
+<!-- =============================================
+     VEHICLES PAGE
+     ============================================= -->
+<div class="vehicles-page">
 
-<!-- LOADING -->
-<p *ngIf="loading" class="loading">
-  Carregando veículos...
-</p>
+  <!-- ── Page Header ── -->
+  <div class="page-header">
+    <div class="page-title-block">
+      <h2 class="page-title">Minha Coleção</h2>
+      <span class="page-count" *ngIf="!loading && vehicles.length > 0">
+        {{ vehicles.length }} veículo{{ vehicles.length !== 1 ? 's' : '' }}
+      </span>
+    </div>
 
-<!-- EMPTY STATE -->
-<div *ngIf="!loading && vehicles.length === 0 && !showForm">
-  <p>Nenhum veículo cadastrado.</p>
-  <button (click)="create()">Cadastrar primeiro veículo</button>
+    <button
+      class="btn-new"
+      (click)="create()"
+      *ngIf="!showForm && authService.isPermission()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Novo Veículo
+    </button>
+  </div>
+
+  <!-- ── Feedback / Toast ── -->
+  <div class="feedback-toast" *ngIf="message" [class.visible]="message">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+    {{ message }}
+  </div>
+
+  <!-- ── Loading State ── -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="loading-spinner">
+      <div class="spinner-ring"></div>
+    </div>
+    <p class="loading-text">Carregando veículos...</p>
+  </div>
+
+  <!-- ── Empty State ── -->
+  <div class="empty-state" *ngIf="!loading && vehicles.length === 0 && !showForm">
+    <div class="empty-icon">🚗</div>
+    <h3 class="empty-title">Nenhum veículo cadastrado</h3>
+    <p class="empty-desc">Comece sua coleção adicionando o primeiro veículo.</p>
+    <button class="btn-new" (click)="create()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Cadastrar primeiro veículo
+    </button>
+  </div>
+
+  <!-- ── Vehicle List ── -->
+  <ng-container *ngIf="!loading && vehicles.length > 0 && !showForm">
+    <app-vehicle-list
+      [vehicles]="vehicles"
+      (edit)="edit($event)"
+      (remove)="askDelete($event)"
+      (show)="view($event)">
+    </app-vehicle-list>
+  </ng-container>
+
+  <!-- ── Confirm Dialog ── -->
+  <app-confirm-dialog
+    *ngIf="vehicleToDelete"
+    message="Deseja realmente excluir este veículo?"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()">
+  </app-confirm-dialog>
+
+  <!-- ── Vehicle Form ── -->
+  <ng-container *ngIf="showForm">
+    <app-vehicle-form
+      [vehicle]="selectedVehicle"
+      [mode]="formMode"
+      [submitting]="submitting"
+      (save)="onSave($event)"
+      (cancel)="onCancel()">
+    </app-vehicle-form>
+  </ng-container>
+
 </div>
-<button (click)="create()" *ngIf="!showForm && authService.isPermission()">+ Novo Veículo</button>
-<br>
-
-
-<!--ng-container *ngIf="!showForm"-->
-<ng-container *ngIf="!loading && vehicles.length > 0 && !showForm">
-  <app-vehicle-list 
-    [vehicles]="vehicles" 
-    (edit)="edit($event)" 
-    (remove)="askDelete($event)"    
-    (show)="view($event)">
-  </app-vehicle-list>
-</ng-container>
-
-<app-confirm-dialog *ngIf="vehicleToDelete" message="Deseja realmente excluir este veículo?" (confirm)="confirmDelete()"
-  (cancel)="cancelDelete()">
-</app-confirm-dialog>
-
-
-<ng-container *ngIf="showForm">
-  <app-vehicle-form 
-    [vehicle]="selectedVehicle" 
-    [mode]="formMode"
-    [submitting]="submitting"
-    (save)="onSave($event)" 
-    (cancel)="onCancel()">
-  </app-vehicle-form>
-</ng-container>
