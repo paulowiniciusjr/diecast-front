@@ -1,60 +1,216 @@
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* ================================================
+   VEHICLE LIST COMPONENT
+   ================================================ */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 1px solid #2a2d35;
+  background: #16181c;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  /* Scrollbar estilizada */
+  &::-webkit-scrollbar { height: 6px; }
+  &::-webkit-scrollbar-track { background: #0e0f11; }
+  &::-webkit-scrollbar-thumb { background: #2a2d35; border-radius: 3px; }
 }
 
-li {
-  background: #fff;
-  padding: 12px 16px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.info {
-  display: flex;
-  flex-direction: column;
-}
-
-.actions button {
-  margin-left: 8px;
-}
-
-
-table {
+/* ── Table Base ── */
+.vehicles-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  font-size: 0.9rem;
 }
 
+/* ── Header ── */
 thead {
-  background: #f0f2f5;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c9a84c 20%, #c9a84c 80%, transparent);
+  }
 }
 
 th {
+  padding: 14px 16px;
   text-align: left;
+  font-size: 0.72rem;
   font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7c8196;
+  background: #1e2128;
+  white-space: nowrap;
+  border-bottom: 1px solid #2a2d35;
+
+  &:first-child { border-radius: 14px 0 0 0; }
+  &:last-child  { border-radius: 0 14px 0 0; }
 }
 
-th, td {
-  padding: 10px;
-  border: 1px solid #ddd;
+/* ── Rows ── */
+tbody tr {
+  border-bottom: 1px solid #1e2128;
+  transition: background 0.18s ease;
+
+  &:last-child { border-bottom: none; }
+
+  &:hover {
+    background: rgba(201, 168, 76, 0.04);
+
+    .id-badge {
+      border-color: rgba(201, 168, 76, 0.3);
+      color: #c9a84c;
+    }
+  }
+
+  &.row-odd {
+    background: rgba(255, 255, 255, 0.012);
+  }
 }
 
-tbody tr:hover {
-  background: #f9fafb;
+td {
+  padding: 14px 16px;
+  color: #c8cad4;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
-button {
-  padding: 4px 8px;
-  margin-right: 6px;
+/* ── Colunas especiais ── */
+.col-id {
+  width: 60px;
+  text-align: center;
 }
 
-button:last-child {
-  margin-right: 0;
+.col-name {
+  font-weight: 500;
+  color: #e8eaf0;
 }
 
+.col-muted {
+  color: #7c8196;
+}
+
+.col-actions {
+  width: 220px;
+  text-align: right;
+}
+
+/* ── Badges ── */
+.id-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #1e2128;
+  border: 1px solid #2a2d35;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #7c8196;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.18s ease;
+}
+
+.scale-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  background: rgba(201, 168, 76, 0.08);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #c9a84c;
+  letter-spacing: 0.03em;
+}
+
+/* ── Cor ── */
+.color-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  background: #888; /* fallback */
+}
+
+/* ── Action Buttons ── */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  /* Visualizar */
+  &--view {
+    background: rgba(52, 152, 219, 0.08);
+    border-color: rgba(52, 152, 219, 0.2);
+    color: #5dade2;
+
+    &:hover {
+      background: rgba(52, 152, 219, 0.16);
+      border-color: rgba(52, 152, 219, 0.4);
+      color: #85c1e9;
+      svg { transform: scale(1.1); }
+    }
+  }
+
+  /* Editar */
+  &--edit {
+    background: rgba(201, 168, 76, 0.08);
+    border-color: rgba(201, 168, 76, 0.2);
+    color: #c9a84c;
+
+    &:hover {
+      background: rgba(201, 168, 76, 0.16);
+      border-color: rgba(201, 168, 76, 0.4);
+      color: #e8c97a;
+      svg { transform: rotate(-8deg) scale(1.1); }
+    }
+  }
+
+  /* Excluir */
+  &--delete {
+    background: rgba(231, 76, 60, 0.07);
+    border-color: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+
+    &:hover {
+      background: rgba(231, 76, 60, 0.15);
+      border-color: rgba(231, 76, 60, 0.45);
+      color: #f1948a;
+      svg { transform: translateY(-1px) scale(1.1); }
+    }
+  }
+}
