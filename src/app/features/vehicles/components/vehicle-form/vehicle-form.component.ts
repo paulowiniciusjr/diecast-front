@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Vehicle } from '../../models/vehicle.model';
+import { ColorConverter } from '../../../../shared/color.converter';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -61,4 +62,7 @@ export class VehicleFormComponent implements OnChanges {
     }, 1000);
   }
 
+  getColorValue(colorInput: string): string {
+    return ColorConverter.parse(colorInput);
+  }
 }

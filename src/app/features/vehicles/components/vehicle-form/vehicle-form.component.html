@@ -50,11 +50,15 @@
 
       <div class="field-group">
         <label class="form-label">Cor</label>
-        <input
-          type="text"
-          formControlName="color"
-          [readonly]="mode === 'view'"
-          class="form-input" />
+        <div class="color-input-wrapper">
+          <input
+            type="color"
+            formControlName="color"
+            [readonly]="mode === 'view'"
+            class="color-input" />
+          <div class="color-preview" [style.background]="getColorValue(form.get('color')?.value || '#888888')"></div>
+          <span class="color-value">{{ form.get('color')?.value || '#888888' }}</span>
+        </div>
       </div>
     </div>
 

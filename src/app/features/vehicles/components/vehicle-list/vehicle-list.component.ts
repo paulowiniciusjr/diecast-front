@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Vehicle } from '../../models/vehicle.model';
 import { AuthService } from '../../../../core/auth/auth.service';
+import { ColorConverter } from '../../../../shared/color.converter';
 
 
 @Component({
@@ -25,4 +26,8 @@ export class VehicleListComponent implements OnInit {
   @Output() edit = new EventEmitter<Vehicle>();
   @Output() remove = new EventEmitter<Vehicle>();
   @Output() show = new EventEmitter<Vehicle>();
+
+  getColorValue(colorInput: string): string {
+    return ColorConverter.parse(colorInput);
+  }
 }

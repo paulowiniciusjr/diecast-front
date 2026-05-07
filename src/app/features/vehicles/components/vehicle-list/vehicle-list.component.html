@@ -25,7 +25,7 @@
         <td class="col-muted">{{ v.vehicleDiecastBrand }}</td>
         <td>
           <div class="color-cell">
-            <span class="color-dot" [style.background]="v.color"></span>
+            <span class="color-dot" [style.background]="getColorValue(v.color)"></span>
             {{ v.color }}
           </div>
         </td>
