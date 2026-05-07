@@ -1,21 +1,85 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+<div class="login-page">
 
-  <h2>Diecast</h2>
+  <!-- Decorative background elements -->
+  <div class="bg-decoration">
+    <div class="bg-circle bg-circle--1"></div>
+    <div class="bg-circle bg-circle--2"></div>
+    <div class="bg-grid"></div>
+  </div>
 
-  <a routerLink="/register">Criar conta</a><br>
-  
-  <input type="text" formControlName="username" placeholder="Usuário" [class.input-error]="hasFieldError('username')">
+  <div class="login-card">
 
-  <input type="password" formControlName="password" placeholder="Senha" [class.input-error]="hasFieldError('password')">
+    <!-- Logo / Brand -->
+    <div class="login-brand">
+      <div class="brand-emblem">🏎</div>
+      <h1 class="brand-title">DIECAST</h1>
+      <p class="brand-tagline">Sua coleção, organizada.</p>
+    </div>
 
-  <button type="submit">Entrar</button>
+    <!-- Divider -->
+    <div class="login-divider"></div>
 
+    <!-- Form -->
+    <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
 
+      <div class="field-group">
+        <label class="field-label">Usuário</label>
+        <div class="field-wrapper">
+          <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <input
+            type="text"
+            formControlName="username"
+            placeholder="Digite seu usuário"
+            [class.input-error]="hasFieldError('username')"
+            autocomplete="username">
+        </div>
+      </div>
 
-  @if (error()) {
-  <p class="error-message">
-    Usuário ou senha inválidos
-  </p>
-  }
+      <div class="field-group">
+        <label class="field-label">Senha</label>
+        <div class="field-wrapper">
+          <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Digite sua senha"
+            [class.input-error]="hasFieldError('password')"
+            autocomplete="current-password">
+        </div>
+      </div>
 
-</form>
+      @if (error()) {
+        <div class="error-alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Usuário ou senha inválidos
+        </div>
+      }
+
+      <button type="submit" class="btn-submit">
+        <span>Entrar</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+
+    </form>
+
+    <!-- Footer -->
+    <p class="login-footer">
+      Não tem conta?
+      <a routerLink="/register" class="login-link">Criar conta</a>
+    </p>
+
+  </div>
+</div>
