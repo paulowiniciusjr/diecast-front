@@ -1,0 +1,189 @@
+<!-- =============================================
+     ADMIN DASHBOARD
+     ============================================= -->
+<div class="dashboard-wrapper" *ngIf="!loading && data">
+
+  <!-- ── Page Header ── -->
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Dashboard Administrativo</h1>
+    <p class="dashboard-subtitle">Visão geral da plataforma de coleciona de Diecast</p>
+  </div>
+
+  <!-- ── Statistics Cards ── -->
+  <section class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon users-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Usuários Registrados</p>
+        <p class="stat-value">{{ data.stats.userCount }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon vehicles-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.9-1.7-1.7-1.7h-.5c-.4 0-.8-.1-1.2-.3l-1.2-1c-.4-.3-1-.3-1.4 0l-1.2 1c-.4.2-.8.3-1.2.3h-.5C9.9 10.3 9 11.1 9 12v3c0 .6.4 1 1 1h2"/>
+          <circle cx="12" cy="13" r="2"/>
+          <path d="M17 9h-5V7c0-1.1.9-2 2-2h1c1.1 0 2 .9 2 2v2z"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Veículos Cadastrados</p>
+        <p class="stat-value">{{ data.stats.vehicleCount }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon brands-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+          <path d="M16 7v-2a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+          <circle cx="9" cy="15" r="1"/>
+          <circle cx="15" cy="15" r="1"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Marcas Únicas</p>
+        <p class="stat-value">{{ data.vehicleStats.topBrands.length }}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon colors-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 8v8M8 12h8"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Cores Registradas</p>
+        <p class="stat-value">{{ data.vehicleStats.topColors.length }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Vehicle Statistics ── -->
+  <div class="stats-section">
+    <h2 class="section-title">Estatísticas de Veículos</h2>
+
+    <div class="stats-content">
+      <!-- Top Brands -->
+      <div class="stat-box">
+        <h3 class="stat-box-title">Marcas Mais Comuns</h3>
+        <div class="stat-list">
+          <div *ngFor="let brand of data.vehicleStats.topBrands" class="stat-item">
+            <div class="stat-item-name">{{ brand.brand }}</div>
+            <div class="stat-item-bar">
+              <div class="stat-item-fill" [style.width.%]="(brand.count / 25) * 100"></div>
+            </div>
+            <div class="stat-item-count">{{ brand.count }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Colors -->
+      <div class="stat-box">
+        <h3 class="stat-box-title">Cores Mais Populares</h3>
+        <div class="stat-list">
+          <div *ngFor="let color of data.vehicleStats.topColors" class="stat-item">
+            <div class="stat-item-color">
+              <span class="color-dot" [style.background]="getColorValue(color.brand)"></span>
+              {{ color.brand }}
+            </div>
+            <div class="stat-item-bar">
+              <div class="stat-item-fill" [style.width.%]="(color.count / 30) * 100"></div>
+            </div>
+            <div class="stat-item-count">{{ color.count }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Latest Vehicles ── -->
+  <section class="vehicles-section">
+    <div class="section-header">
+      <h2 class="section-title">Veículos Recentes</h2>
+      <span class="section-count">{{ data.vehicleStats.newestVehicles.length }} registrados</span>
+    </div>
+
+    <div class="vehicles-grid">
+      <div *ngFor="let vehicle of data.vehicleStats.newestVehicles" class="vehicle-card">
+        <div class="vehicle-header">
+          <div class="vehicle-color-badge" [style.background]="getColorValue(vehicle.color)"></div>
+          <p class="vehicle-date">{{ formatDate(vehicle.registeredAt) }}</p>
+        </div>
+        <h4 class="vehicle-name">{{ vehicle.name }}</h4>
+        <p class="vehicle-brand">{{ vehicle.brand }}</p>
+        <p class="vehicle-owner">Por: {{ vehicle.owner }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Oldest Vehicles ── -->
+  <section class="vehicles-section">
+    <div class="section-header">
+      <h2 class="section-title">Veículos Mais Antigos</h2>
+      <span class="section-count">{{ data.vehicleStats.oldestVehicles.length }} registrados</span>
+    </div>
+
+    <div class="vehicles-grid">
+      <div *ngFor="let vehicle of data.vehicleStats.oldestVehicles" class="vehicle-card old">
+        <div class="vehicle-header">
+          <div class="vehicle-color-badge" [style.background]="getColorValue(vehicle.color)"></div>
+          <p class="vehicle-date">{{ formatDate(vehicle.registeredAt) }}</p>
+        </div>
+        <h4 class="vehicle-name">{{ vehicle.name }}</h4>
+        <p class="vehicle-brand">{{ vehicle.brand }}</p>
+        <p class="vehicle-owner">Por: {{ vehicle.owner }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Users List ── -->
+  <section class="users-section">
+    <div class="section-header">
+      <h2 class="section-title">Usuários Cadastrados</h2>
+      <span class="section-count">{{ data.users.length }} usuários</span>
+    </div>
+
+    <div class="users-table-wrapper">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th class="col-id">#</th>
+            <th class="col-name">Usuário</th>
+            <th class="col-vehicles">Veículos</th>
+            <th class="col-date">Cadastro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of data.users; let odd = odd" [class.row-odd]="odd">
+            <td class="col-id">{{ user.id }}</td>
+            <td class="col-name">{{ user.username }}</td>
+            <td class="col-vehicles">
+              <span class="vehicle-badge">{{ user.vehicleCount }}</span>
+            </td>
+            <td class="col-date">{{ formatDate(user.registeredAt || '') }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<!-- ── Loading State ── -->
+<div class="loading-state" *ngIf="loading">
+  <div class="loading-spinner">
+    <div class="spinner-ring"></div>
+  </div>
+  <p class="loading-text">Carregando dashboard...</p>
+</div>
