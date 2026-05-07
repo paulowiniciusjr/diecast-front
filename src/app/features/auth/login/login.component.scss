@@ -1,33 +1,297 @@
-.error {
-  color: #d32f2f;
+/* ================================================
+   LOGIN COMPONENT
+   ================================================ */
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
 }
 
+/* ── Background Decorations ── */
+.bg-decoration {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
 
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+
+  &--1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    top: -200px;
+    right: -150px;
+    animation: float-slow 12s ease-in-out infinite;
+  }
+
+  &--2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(224,92,42,0.05) 0%, transparent 70%);
+    bottom: -100px;
+    left: -100px;
+    animation: float-slow 15s ease-in-out infinite reverse;
+  }
+}
+
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Card ── */
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: #16181c;
+  border: 1px solid #2a2d35;
+  border-radius: 20px;
+  padding: 44px 40px 36px;
+  box-shadow:
+    0 0 0 1px rgba(201,168,76,0.05),
+    0 20px 60px rgba(0,0,0,0.7),
+    0 0 80px rgba(201,168,76,0.04);
+  animation: fadeInUp 0.5s ease both;
+
+  /* Linha dourada no topo */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c9a84c 30%, #e8c97a 50%, #c9a84c 70%, transparent);
+    border-radius: 1px;
+  }
+}
+
+/* ── Brand ── */
+.login-brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.brand-emblem {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 12px;
+  animation: float-subtle 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(201,168,76,0.3));
+}
+
+.brand-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.2rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 50%, #c9a84c 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+  margin-bottom: 6px;
+}
+
+.brand-tagline {
+  font-size: 0.82rem;
+  color: #4a4f60;
+  letter-spacing: 0.05em;
+}
+
+/* ── Divider ── */
+.login-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #2a2d35 30%, #2a2d35 70%, transparent);
+  margin-bottom: 28px;
+}
+
+/* ── Form ── */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 300px;
+  gap: 18px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.field-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7c8196;
+}
+
+.field-wrapper {
+  position: relative;
+}
+
+.field-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #4a4f60;
+  pointer-events: none;
+  transition: color 0.25s ease;
 }
 
 input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 100%;
+  padding: 13px 16px 13px 42px;
+  background: #1e2128;
+  border: 1px solid #2a2d35;
+  border-radius: 10px;
+  color: #e8eaf0;
+  font-size: 0.95rem;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+  &::placeholder {
+    color: #3a3f4d;
+  }
+
+  &:focus {
+    border-color: #c9a84c;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+
+    & ~ .field-icon,
+    .field-wrapper:has(&:focus) .field-icon {
+      color: #c9a84c;
+    }
+  }
+
+  &.input-error {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
+  }
 }
 
-input:focus {
-  border-color: #1976d2;
+/* Hack para ícone mudar de cor no focus */
+.field-wrapper:focus-within .field-icon {
+  color: #c9a84c;
 }
 
-.input-error {
-  border-color: #d32f2f;
-  box-shadow: 0 0 0 1px rgba(211, 47, 47, 0.2);
+/* ── Error Alert ── */
+.error-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(231,76,60,0.08);
+  border: 1px solid rgba(231,76,60,0.25);
+  border-radius: 10px;
+  color: #e74c3c;
+  font-size: 0.88rem;
+  animation: shake 0.4s ease;
 }
 
-.error-message {
-  color: #d32f2f;
-  font-size: 14px;
+/* ── Submit Button ── */
+.btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  margin-top: 6px;
+  background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%);
+  color: #0e0f11;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  transition: all 0.25s ease;
+
+  svg {
+    transition: transform 0.25s ease;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(201,168,76,0.45);
+
+    svg { transform: translateX(4px); }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* ── Footer ── */
+.login-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #4a4f60;
+}
+
+.login-link {
+  color: #c9a84c;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 6px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #e8c97a;
+    text-decoration: underline;
+  }
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  from { background-position: 0% center; }
+  to   { background-position: 200% center; }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.05); }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-6px); }
+  75%       { transform: translateX(6px); }
 }
