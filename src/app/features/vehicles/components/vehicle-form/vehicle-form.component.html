@@ -1,39 +1,85 @@
-<form [formGroup]="form">
-  <label>
-    Nome
-    <input formControlName="name" />
-  </label>
+<div class="form-wrapper">
+  <form [formGroup]="form" class="vehicle-form">
+    <!-- ── Header ── -->
+    <div class="form-header">
+      <h3 class="form-title">
+        <span *ngIf="mode === 'create'">Novo Veículo</span>
+        <span *ngIf="mode === 'edit'">Editar Veículo</span>
+        <span *ngIf="mode === 'view'">Visualizar Veículo</span>
+      </h3>
+      <span class="form-mode" [class]="'mode-' + mode">{{ mode }}</span>
+    </div>
 
-  <label>
-    Escala
-    <input formControlName="scale" />
-  </label>
+    <!-- ── Fields ── -->
+    <div class="form-fields">
+      <div class="field-group">
+        <label class="form-label">Nome</label>
+        <input
+          type="text"
+          formControlName="name"
+          [readonly]="mode === 'view'"
+          class="form-input" />
+      </div>
 
-  <label>
-    Marca do Veículo
-    <input formControlName="vehicleBrand" />
-  </label>
+      <div class="field-group">
+        <label class="form-label">Escala</label>
+        <input
+          type="text"
+          formControlName="scale"
+          [readonly]="mode === 'view'"
+          class="form-input" />
+      </div>
 
-  <label>
-    Marca Diecast
-    <input formControlName="vehicleDiecastBrand" />
-  </label>
+      <div class="field-group">
+        <label class="form-label">Marca do Veículo</label>
+        <input
+          type="text"
+          formControlName="vehicleBrand"
+          [readonly]="mode === 'view'"
+          class="form-input" />
+      </div>
 
-  <label>
-    Cor    
-    <input formControlName="color"  />
-  </label>
+      <div class="field-group">
+        <label class="form-label">Marca Diecast</label>
+        <input
+          type="text"
+          formControlName="vehicleDiecastBrand"
+          [readonly]="mode === 'view'"
+          class="form-input" />
+      </div>
 
-  <div class="actions">
-    <button
-      type="button"
-      (click)="submit()"
-      [disabled]="form.invalid || submitting || mode === 'view'">
-      {{ submitting ? 'Salvando...' : 'Salvar' }}
-    </button>
+      <div class="field-group">
+        <label class="form-label">Cor</label>
+        <input
+          type="text"
+          formControlName="color"
+          [readonly]="mode === 'view'"
+          class="form-input" />
+      </div>
+    </div>
 
-    <button type="button" (click)="cancel.emit()">
-      Voltar
-    </button>
-  </div>
-</form>
+    <!-- ── Actions ── -->
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="cancel.emit()">
+        Voltar
+      </button>
+
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="submit()"
+        [disabled]="form.invalid || submitting || mode === 'view'">
+        <span *ngIf="submitting">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/>
+          </svg>
+        </span>
+        {{ submitting ? 'Salvando...' : (mode === 'edit' ? 'Atualizar' : 'Criar') }}
+      </button>
+    </div>
+  </form>
+</div>
+
