@@ -11,11 +11,11 @@ import { ToastService } from '../../core/toast/toast.service';
 import { AuthService } from '../../core/auth/auth.service';
 
 
-
 @Component({
   selector: 'app-vehicles',
   standalone: true,
   templateUrl: './vehicles.component.html',
+  styleUrls: ['./vehicles.component.scss'],   // ← linha que estava faltando
   imports: [
     CommonModule,
     VehicleListComponent,
@@ -33,7 +33,6 @@ export class VehiclesComponent implements OnInit {
   loading = false;
   message = '';
   submitting = false;
-  
 
   constructor(private service: VehiclesService,
     private router: ActivatedRoute,
@@ -43,26 +42,23 @@ export class VehiclesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.authService.loadMe();
   }
-
 
   loadVehicles(): void {
     this.loading = true;
 
     this.service.getMyVehicles().subscribe({
       next: data => this.vehicles = data,
-      error: () => {        
+      error: () => {
         this.toast.showError('Erro ao carregar veículos.');
       },
       complete: () => this.loading = false
     });
   }
 
-
   create(): void {
-    this.formMode = 'create';    
+    this.formMode = 'create';
     this.selectedVehicle = undefined;
     this.showForm = true;
   }
@@ -73,7 +69,7 @@ export class VehiclesComponent implements OnInit {
     this.showForm = true;
   }
 
-  view(vehicle: Vehicle): void {    
+  view(vehicle: Vehicle): void {
     this.formMode = 'view';
     this.selectedVehicle = vehicle;
     this.showForm = true;
@@ -87,34 +83,23 @@ export class VehiclesComponent implements OnInit {
       : this.service.create(vehicle);
 
     request$
-      .pipe(
-        finalize(() => {
-          // GARANTIA ABSOLUTA
-          this.submitting = false;
-        })
-      )
+      .pipe(finalize(() => { this.submitting = false; }))
       .subscribe({
         next: saved => {
           if (vehicle.id) {
-            this.vehicles = this.vehicles.map(v =>
-              v.id === saved.id ? saved : v
-            );
+            this.vehicles = this.vehicles.map(v => v.id === saved.id ? saved : v);
             this.toast.showSuccess('Veículo atualizado com sucesso.');
           } else {
             this.vehicles = [...this.vehicles, saved];
             this.toast.showSuccess('Veículo cadastrado com sucesso.');
           }
-
-          // ⬅️ VOLTA PARA LISTA
-          this.showForm = false;          
+          this.showForm = false;
         },
         error: () => {
           this.toast.showError('Erro ao salvar veículo.');
         }
-
       });
   }
-
 
   onCancel(): void {
     this.clearMessage();
@@ -123,7 +108,6 @@ export class VehiclesComponent implements OnInit {
   }
 
   askDelete(vehicle: Vehicle) {
-    console.log('askDelete', vehicle);
     this.vehicleToDelete = vehicle;
   }
 
@@ -131,9 +115,7 @@ export class VehiclesComponent implements OnInit {
     if (!this.vehicleToDelete) return;
 
     this.service.delete(this.vehicleToDelete.id!).subscribe(() => {
-      this.vehicles = this.vehicles.filter(
-        v => v.id !== this.vehicleToDelete!.id
-      );
+      this.vehicles = this.vehicles.filter(v => v.id !== this.vehicleToDelete!.id);
       this.vehicleToDelete = undefined;
     });
   }
@@ -145,8 +127,4 @@ export class VehiclesComponent implements OnInit {
   clearMessage(): void {
     this.message = '';
   }
-
-
 }
-
-

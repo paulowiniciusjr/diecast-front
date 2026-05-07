@@ -8,7 +8,8 @@ import { AuthService } from '../../../../core/auth/auth.service';
   selector: 'app-vehicle-list',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: 'vehicle-list.component.html'
+  templateUrl: 'vehicle-list.component.html',
+  styleUrls: ['vehicle-list.component.scss']   // ← linha que estava faltando
 })
 export class VehicleListComponent implements OnInit {
 
