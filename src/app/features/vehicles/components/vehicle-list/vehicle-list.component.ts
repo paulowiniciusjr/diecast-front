@@ -15,6 +15,7 @@ import { ColorConverter } from '../../../../shared/color.converter';
 export class VehicleListComponent implements OnInit {
 
   constructor(public authService: AuthService) { }
+  ColorConverter = ColorConverter;
 
   ngOnInit(): void {
     this.authService.loadMe();

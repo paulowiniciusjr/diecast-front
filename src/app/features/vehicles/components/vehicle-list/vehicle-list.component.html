@@ -26,7 +26,7 @@
         <td>
           <div class="color-cell">
             <span class="color-dot" [style.background]="getColorValue(v.color)"></span>
-            {{ v.color }}
+            {{ ColorConverter.getColorName(v.color) }}
           </div>
         </td>
         <td class="col-actions">
