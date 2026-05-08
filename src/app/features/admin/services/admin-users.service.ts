@@ -62,3 +62,4 @@ export class AdminUsersService {
       catchError(() => of(['USER', 'ADMIN']))
     );
   }
+}
