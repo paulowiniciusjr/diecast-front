@@ -10,6 +10,7 @@ export interface UserFormData {
   email: string;
   phone?: string;
   password?: string;
+  role?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -40,7 +41,7 @@ export class AdminUsersService {
 
   checkUsernameAvailable(username: string, excludeId?: number): Observable<boolean> {
     const params = excludeId ? `?excludeId=${excludeId}` : '';
-    return this.http.get<{ available: boolean }>(`${this.API}/check/username/${username}${params}`)
+    return this.http.get<{ available: boolean }>(`${this.API}/check-username/${username}${params}`)
       .pipe(
         switchMap(res => of(res.available)),
         catchError(() => of(false))
@@ -49,10 +50,15 @@ export class AdminUsersService {
 
   checkEmailAvailable(email: string, excludeId?: number): Observable<boolean> {
     const params = excludeId ? `?excludeId=${excludeId}` : '';
-    return this.http.get<{ available: boolean }>(`${this.API}/check/email/${email}${params}`)
+    return this.http.get<{ available: boolean }>(`${this.API}/check-email/${email}${params}`)
       .pipe(
         switchMap(res => of(res.available)),
         catchError(() => of(false))
       );
   }
-}
+
+  getAvailableRoles(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.API}/roles`).pipe(
+      catchError(() => of(['USER', 'ADMIN']))
+    );
+  }

@@ -22,6 +22,7 @@ export class UserFormComponent implements OnChanges {
   @Output() cancel = new EventEmitter<void>();
 
   form!: FormGroup;
+  availableRoles: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -31,10 +32,18 @@ export class UserFormComponent implements OnChanges {
       username: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', this.phoneValidator()],
-      password: ['']
+      password: [''],
+      role: ['']
     });
 
     this.setupAsyncValidators();
+    this.loadAvailableRoles();
+  }
+
+  private loadAvailableRoles(): void {
+    this.usersService.getAvailableRoles().subscribe(roles => {
+      this.availableRoles = roles;
+    });
   }
 
   ngOnChanges() {
@@ -42,12 +51,14 @@ export class UserFormComponent implements OnChanges {
       this.form.patchValue({
         username: this.user.username,
         email: this.user.email || '',
-        phone: this.user.phone || ''
+        phone: this.user.phone || '',
+        role: this.user.role || 'USER'
       });
       this.form.get('password')?.clearAsyncValidators();
     } else {
       this.form.reset();
       this.form.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
+      this.form.patchValue({ role: 'USER' });
     }
 
     if (this.mode === 'view') {
@@ -119,7 +130,8 @@ export class UserFormComponent implements OnChanges {
     const formData: UserFormData = {
       username: this.form.value.username,
       email: this.form.value.email,
-      phone: this.form.value.phone || undefined
+      phone: this.form.value.phone || undefined,
+      role: this.form.value.role || 'USER'
     };
 
     if (this.form.value.password) {

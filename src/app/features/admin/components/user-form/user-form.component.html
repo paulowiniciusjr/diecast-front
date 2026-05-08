@@ -79,6 +79,18 @@
           Mínimo 6 caracteres
         </span>
       </div>
+
+      <div class="field-group">
+        <label class="form-label">Role / Permissão</label>
+        <select
+          formControlName="role"
+          [disabled]="mode === 'view'"
+          class="form-input form-select">
+          <option *ngFor="let role of availableRoles" [value]="role">
+            {{ role }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <!-- ── Actions ── -->

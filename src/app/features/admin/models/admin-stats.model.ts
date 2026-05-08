@@ -8,6 +8,7 @@ export interface UserWithVehicles {
   username: string;
   email?: string;
   phone?: string;
+  role?: string;
   vehicleCount: number;
   registeredAt?: string;
 }

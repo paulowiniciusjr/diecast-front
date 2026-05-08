@@ -173,6 +173,7 @@
             <th class="col-name">Usuário</th>
             <th class="col-email">Email</th>
             <th class="col-phone">WhatsApp</th>
+            <th class="col-role">Role</th>
             <th class="col-vehicles">Veículos</th>
             <th class="col-date">Cadastro</th>
             <th class="col-actions">Ações</th>
@@ -184,6 +185,11 @@
             <td class="col-name">{{ user.username }}</td>
             <td class="col-email">{{ user.email || '-' }}</td>
             <td class="col-phone">{{ user.phone || '-' }}</td>
+            <td class="col-role">
+              <span class="role-badge" [class]="'role-badge--' + (user.role || 'USER').toLowerCase()">
+                {{ user.role || 'USER' }}
+              </span>
+            </td>
             <td class="col-vehicles">
               <span class="vehicle-badge">{{ user.vehicleCount }}</span>
             </td>
