@@ -14,6 +14,7 @@ import { ColorConverter } from '../../../shared/color.converter';
 export class AdminDashboardComponent implements OnInit {
   data!: AdminDashboardData;
   loading = true;
+  ColorConverter = ColorConverter;
 
   constructor(private route: ActivatedRoute) {}
 

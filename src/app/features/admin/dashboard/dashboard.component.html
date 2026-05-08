@@ -96,7 +96,7 @@
             <div *ngFor="let color of data.vehicleStats.topColors" class="stat-item">
               <div class="stat-item-color">
                 <span class="color-dot" [style.background]="getColorValue(color.brand)"></span>
-                {{ color.brand }}
+                {{ ColorConverter.getColorName(color.brand) }}
               </div>
               <div class="stat-item-bar">
                 <div class="stat-item-fill" [style.width.%]="(color.count / 30) * 100"></div>
