@@ -6,6 +6,8 @@ export interface AdminStats {
 export interface UserWithVehicles {
   id: number;
   username: string;
+  email?: string;
+  phone?: string;
   vehicleCount: number;
   registeredAt?: string;
 }

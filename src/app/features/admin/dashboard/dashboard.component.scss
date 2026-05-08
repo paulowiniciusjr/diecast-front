@@ -297,6 +297,21 @@
   margin-bottom: 40px;
 }
 
+.users-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  justify-content: flex-end;
+}
+
+.btn-new {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+}
+
 .users-table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -386,6 +401,17 @@
 
 .col-name {
   font-weight: 500;
+  width: 120px;
+}
+
+.col-email {
+  width: 200px;
+  font-size: 0.85rem;
+}
+
+.col-phone {
+  width: 160px;
+  font-size: 0.85rem;
 }
 
 .col-vehicles {
@@ -395,6 +421,11 @@
 
 .col-date {
   width: 140px;
+}
+
+.col-actions {
+  width: 240px;
+  text-align: right;
 }
 
 .vehicle-badge {
@@ -409,6 +440,206 @@
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--color-gold);
+}
+
+/* ── Action Buttons ── */
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--color-gold);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(201,168,76,0.2);
+    border-color: rgba(201,168,76,0.5);
+  }
+
+  &--view {
+    color: #5dade2;
+    background: rgba(52,152,219,0.1);
+    border-color: rgba(52,152,219,0.3);
+
+    &:hover {
+      background: rgba(52,152,219,0.2);
+      border-color: rgba(52,152,219,0.5);
+    }
+  }
+
+  &--edit {
+    color: var(--color-gold);
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.3);
+
+    &:hover {
+      background: rgba(201,168,76,0.2);
+      border-color: rgba(201,168,76,0.5);
+    }
+  }
+
+  &--delete {
+    color: #e74c3c;
+    background: rgba(231,76,60,0.1);
+    border-color: rgba(231,76,60,0.3);
+
+    &:hover {
+      background: rgba(231,76,60,0.2);
+      border-color: rgba(231,76,60,0.5);
+    }
+  }
+}
+
+/* ── Form Modal ── */
+.form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.modal-content {
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1001;
+  animation: slideUp 0.3s ease;
+}
+
+/* ── Delete Confirmation ── */
+.delete-confirmation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.2s ease;
+}
+
+.confirmation-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.confirmation-dialog {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-width: 400px;
+  z-index: 1000;
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+.confirmation-header {
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(231,76,60,0.1) 0%, rgba(231,76,60,0.05) 100%);
+  border-bottom: 1px solid var(--color-border);
+
+  h3 {
+    margin: 0;
+    color: #e74c3c;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}
+
+.confirmation-body {
+  padding: 20px 24px;
+
+  p {
+    margin: 0 0 12px;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    strong {
+      font-weight: 600;
+      color: #e74c3c;
+    }
+  }
+
+  .warning {
+    color: #e67e22;
+    background: rgba(230,126,34,0.1);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    margin-top: 12px;
+  }
+}
+
+.confirmation-actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(0,0,0,0.2);
+  border-top: 1px solid var(--color-border);
+  justify-content: flex-end;
+
+  button {
+    min-width: 120px;
+  }
+}
+
+.btn-danger {
+  background: #e74c3c;
+  color: white;
+  border: 1px solid #c0392b;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #c0392b;
+    box-shadow: 0 0 0 3px rgba(231,76,60,0.3);
+  }
 }
 
 /* ── Loading State ── */
