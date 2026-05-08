@@ -51,13 +51,26 @@
       <div class="field-group">
         <label class="form-label">Cor</label>
         <div class="color-input-wrapper">
-          <input
-            type="color"
-            formControlName="color"
-            [readonly]="mode === 'view'"
-            class="color-input" />
-          <div class="color-preview" [style.background]="getColorValue(form.get('color')?.value || '#888888')"></div>
-          <span class="color-value">{{ form.get('color')?.value || '#888888' }}</span>
+          <div class="color-input-container">
+            <input
+              type="text"
+              formControlName="color"
+              [readonly]="mode === 'view'"
+              (input)="onColorInput($event.target.value)"
+              (keypress)="onColorKeypress($event, $event.target.value)"
+              placeholder="Digite a cor (ex: vermelho, blue)"
+              class="form-input color-text-input" />
+            <div class="color-preview" [style.background]="getColorPreview()"></div>
+          </div>
+          <div class="color-suggestions" *ngIf="showSuggestions && colorSuggestions.length > 0">
+            <div
+              *ngFor="let suggestion of colorSuggestions"
+              class="suggestion-item"
+              (click)="selectColor(suggestion)">
+              <div class="suggestion-preview" [style.background]="ColorConverter.parse(suggestion)"></div>
+              <span>{{ suggestion }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

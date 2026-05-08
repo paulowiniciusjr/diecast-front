@@ -122,6 +122,13 @@
 
 /* ── Color Input ── */
 .color-input-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.color-input-container {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -137,40 +144,79 @@
   }
 }
 
-.color-input {
-  width: 50px;
-  height: 40px;
+.color-text-input {
+  flex: 1;
+  padding: 0;
+  background: transparent;
   border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: transform var(--transition);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
 
-  &:hover:not(:disabled) {
-    transform: scale(1.05);
+  &:focus {
+    outline: none;
   }
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  &::placeholder {
+    color: var(--color-text-dim);
   }
 }
 
 .color-preview {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid var(--color-border-glow);
   transition: all var(--transition);
   box-shadow: 0 0 8px rgba(0,0,0,0.3);
+  flex-shrink: 0;
 }
 
-.color-value {
-  font-size: 0.85rem;
-  font-weight: 500;
-  font-family: var(--font-mono);
-  color: var(--color-text-muted);
-  letter-spacing: 0.05em;
-  min-width: 70px;
+.color-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 10;
+  animation: slideDown 0.15s ease-out;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background var(--transition);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: rgba(201,168,76,0.08);
+  }
+
+  span {
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+}
+
+.suggestion-preview {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 
 /* ── Actions ── */
@@ -198,6 +244,17 @@
   from {
     opacity: 0;
     transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;

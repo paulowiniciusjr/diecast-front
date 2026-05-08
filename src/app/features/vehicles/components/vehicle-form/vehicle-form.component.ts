@@ -21,9 +21,23 @@ export class VehicleFormComponent implements OnChanges {
   @Input() submitting = false;
   @Input() mode: 'view' | 'edit' | 'create' = 'create';
 
-
-
   form!: FormGroup;
+  colorSuggestions: string[] = [];
+  showSuggestions = false;
+  ColorConverter = ColorConverter;
+
+  private colorNames = [
+    // Português
+    'vermelho', 'vermelho escuro', 'azul', 'azul escuro', 'verde', 'verde escuro',
+    'amarelo', 'amarelo claro', 'laranja', 'laranja escuro', 'roxo', 'roxo escuro',
+    'rosa', 'cinza', 'cinza claro', 'cinza escuro', 'preto', 'branco', 'marrom',
+    'menta', 'ouro', 'prata',
+    // English
+    'red', 'dark red', 'blue', 'dark blue', 'green', 'dark green',
+    'yellow', 'light yellow', 'orange', 'dark orange', 'purple', 'dark purple',
+    'pink', 'gray', 'light gray', 'dark gray', 'black', 'white', 'brown',
+    'mint', 'gold', 'silver'
+  ];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -62,7 +76,38 @@ export class VehicleFormComponent implements OnChanges {
     }, 1000);
   }
 
-  getColorValue(colorInput: string): string {
-    return ColorConverter.parse(colorInput);
+  onColorInput(value: string): void {
+    const trimmed = value.trim().toLowerCase();
+
+    if (!trimmed) {
+      this.showSuggestions = false;
+      return;
+    }
+
+    this.colorSuggestions = this.colorNames.filter(color =>
+      color.toLowerCase().includes(trimmed)
+    );
+    this.showSuggestions = this.colorSuggestions.length > 0;
+  }
+
+  selectColor(colorName: string): void {
+    const hex = ColorConverter.parse(colorName);
+    this.form.patchValue({ color: hex });
+    this.showSuggestions = false;
+  }
+
+  onColorKeypress(event: KeyboardEvent, inputValue: string): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      const hex = ColorConverter.parse(inputValue);
+      this.form.patchValue({ color: hex });
+      this.showSuggestions = false;
+    }
+  }
+
+  getColorPreview(): string {
+    const colorValue = this.form.get('color')?.value;
+    if (!colorValue) return '#888888';
+    return /^#[0-9a-f]{6}$/i.test(colorValue) ? colorValue : '#888888';
   }
 }
