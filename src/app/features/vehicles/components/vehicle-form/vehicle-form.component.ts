@@ -51,7 +51,11 @@ export class VehicleFormComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.vehicle) {
-      this.form.patchValue(this.vehicle);
+      const colorName = ColorConverter.getColorName(this.vehicle.color);
+      this.form.patchValue({
+        ...this.vehicle,
+        color: colorName
+      });
     } else {
       this.form.reset();
     }
@@ -66,8 +70,12 @@ export class VehicleFormComponent implements OnChanges {
   submit(): void {
     if (this.form.invalid) return;
 
+    const colorValue = this.form.value.color;
+    const hexColor = /^#[0-9a-f]{6}$/i.test(colorValue) ? colorValue : ColorConverter.parse(colorValue);
+
     this.save.emit({
       ...this.form.value,
+      color: hexColor,
       id: this.vehicle?.id
     });
 
@@ -91,16 +99,21 @@ export class VehicleFormComponent implements OnChanges {
   }
 
   selectColor(colorName: string): void {
-    const hex = ColorConverter.parse(colorName);
-    this.form.patchValue({ color: hex });
+    this.form.patchValue({ color: colorName });
     this.showSuggestions = false;
   }
 
   onColorKeypress(event: KeyboardEvent, inputValue: string): void {
     if (event.key === 'Enter') {
       event.preventDefault();
-      const hex = ColorConverter.parse(inputValue);
-      this.form.patchValue({ color: hex });
+      const trimmed = inputValue.trim().toLowerCase().replace(/\s+/g, '');
+      const validColor = this.colorNames.find(c => c.toLowerCase().replace(/\s+/g, '') === trimmed);
+
+      if (validColor) {
+        this.form.patchValue({ color: validColor });
+      } else {
+        this.form.patchValue({ color: inputValue });
+      }
       this.showSuggestions = false;
     }
   }
@@ -108,6 +121,8 @@ export class VehicleFormComponent implements OnChanges {
   getColorPreview(): string {
     const colorValue = this.form.get('color')?.value;
     if (!colorValue) return '#888888';
-    return /^#[0-9a-f]{6}$/i.test(colorValue) ? colorValue : '#888888';
+
+    const hex = /^#[0-9a-f]{6}$/i.test(colorValue) ? colorValue : ColorConverter.parse(colorValue);
+    return hex;
   }
 }
