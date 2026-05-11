@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { UserWithVehicles } from '../../models/admin-stats.model';
 import { AdminUsersService, UserFormData } from '../../services/admin-users.service';
-import { debounceTime, switchMap, map, distinctUntilChanged, first, Subject } from 'rxjs/operators';
-import { timer, of } from 'rxjs';
+import { debounceTime, switchMap, map, distinctUntilChanged, first } from 'rxjs/operators';
+import { timer, of, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-user-form',
