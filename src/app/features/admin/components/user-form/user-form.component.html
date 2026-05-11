@@ -39,14 +39,8 @@
           [readonly]="mode === 'view'"
           placeholder="seu@email.com"
           class="form-input" />
-        <span class="field-error" *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched">
-          Campo obrigatório
-        </span>
         <span class="field-error" *ngIf="form.get('email')?.hasError('email') && form.get('email')?.touched">
           Email inválido
-        </span>
-        <span class="field-error" *ngIf="form.get('email')?.hasError('emailTaken') && form.get('email')?.touched">
-          Email já existe
         </span>
       </div>
 

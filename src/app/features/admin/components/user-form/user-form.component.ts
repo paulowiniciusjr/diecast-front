@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { UserWithVehicles } from '../../models/admin-stats.model';
 import { AdminUsersService, UserFormData } from '../../services/admin-users.service';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-form',
@@ -30,7 +29,7 @@ export class UserFormComponent implements OnChanges {
   ) {
     this.form = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.email]],
       phone: ['', this.phoneValidator()],
       password: [''],
       role: ['']
@@ -85,19 +84,6 @@ export class UserFormComponent implements OnChanges {
       });
       usernameControl.updateValueAndValidity();
     }
-
-    const emailControl = this.form.get('email');
-    if (emailControl) {
-      emailControl.setAsyncValidators((control: AbstractControl) => {
-        if (!control.value) {
-          return Promise.resolve(null);
-        }
-        return this.usersService.checkEmailAvailable(control.value, this.user?.id)
-          .toPromise()
-          .then(available => available ? null : { emailTaken: true });
-      });
-      emailControl.updateValueAndValidity();
-    }
   }
 
   private phoneValidator() {
@@ -105,7 +91,8 @@ export class UserFormComponent implements OnChanges {
       if (!control.value) return null;
 
       const phone = control.value.replace(/\D/g, '');
-      if (phone.length === 11 || phone.length === 13) {
+      // Accept: empty, only +55 (2 digits), or valid phone (11 or 13 digits)
+      if (phone.length === 0 || phone.length === 2 || phone.length === 11 || phone.length === 13) {
         return null;
       }
       return { invalidPhone: true };
