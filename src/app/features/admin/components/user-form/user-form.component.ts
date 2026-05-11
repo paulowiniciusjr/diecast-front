@@ -36,7 +36,6 @@ export class UserFormComponent implements OnChanges {
       role: ['']
     });
 
-    this.setupAsyncValidators();
     this.loadAvailableRoles();
   }
 
@@ -47,18 +46,23 @@ export class UserFormComponent implements OnChanges {
   }
 
   ngOnChanges() {
+    this.setupAsyncValidators();
+
     if (this.user) {
+      if (this.user.role && !this.availableRoles.includes(this.user.role)) {
+        this.availableRoles = [this.user.role, ...this.availableRoles];
+      }
       this.form.patchValue({
         username: this.user.username,
         email: this.user.email || '',
-        phone: this.user.phone || '',
+        phone: this.user.phone || this.formatPhone('+55'),
         role: this.user.role || 'USER'
       });
       this.form.get('password')?.clearAsyncValidators();
     } else {
       this.form.reset();
       this.form.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
-      this.form.patchValue({ role: 'USER' });
+      this.form.patchValue({ role: 'USER', phone: this.formatPhone('+55') });
     }
 
     if (this.mode === 'view') {
@@ -79,6 +83,7 @@ export class UserFormComponent implements OnChanges {
           .toPromise()
           .then(available => available ? null : { usernameTaken: true });
       });
+      usernameControl.updateValueAndValidity();
     }
 
     const emailControl = this.form.get('email');
@@ -91,6 +96,7 @@ export class UserFormComponent implements OnChanges {
           .toPromise()
           .then(available => available ? null : { emailTaken: true });
       });
+      emailControl.updateValueAndValidity();
     }
   }
 
@@ -107,21 +113,36 @@ export class UserFormComponent implements OnChanges {
   }
 
   formatPhone(value: string): string {
-    if (!value) return '';
+    if (!value) return '+55 ';
     const digits = value.replace(/\D/g, '');
 
     if (digits.length <= 2) return `+${digits}`;
-    if (digits.length <= 5) return `+${digits.slice(0, 2)} (${digits.slice(2)}`;
-    if (digits.length <= 10) return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${digits.slice(4)}`;
+    if (digits.length <= 4) return `+${digits.slice(0, 2)} (${digits.slice(2)}`;
+    if (digits.length <= 9) return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${digits.slice(4)}`;
 
-    return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${digits.slice(4, 9)}-${digits.slice(9)}`;
+    return `+${digits.slice(0, 2)} (${digits.slice(2, 4)}) ${digits.slice(4, 9)}-${digits.slice(9, 13)}`;
   }
 
   onPhoneInput(event: any): void {
     const input = event.target as HTMLInputElement;
-    const formatted = this.formatPhone(input.value);
+    let value = input.value;
+
+    if (!value.startsWith('+55')) {
+      value = '+55' + value.replace(/\D/g, '');
+    }
+
+    const formatted = this.formatPhone(value);
     this.form.patchValue({ phone: formatted }, { emitEvent: false });
     input.value = formatted;
+  }
+
+  onPhoneFocus(event: any): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.value) {
+      const formatted = this.formatPhone('+55');
+      this.form.patchValue({ phone: formatted }, { emitEvent: false });
+      input.value = formatted;
+    }
   }
 
   submit(): void {

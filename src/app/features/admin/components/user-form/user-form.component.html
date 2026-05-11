@@ -57,6 +57,7 @@
           formControlName="phone"
           [readonly]="mode === 'view'"
           (input)="onPhoneInput($event)"
+          (focus)="onPhoneFocus($event)"
           placeholder="+55 (11) 98765-4321"
           class="form-input" />
         <span class="field-error" *ngIf="form.get('phone')?.hasError('invalidPhone') && form.get('phone')?.touched">
@@ -86,7 +87,7 @@
           formControlName="role"
           [disabled]="mode === 'view'"
           class="form-input form-select">
-          <option *ngFor="let role of availableRoles" [value]="role">
+          <option *ngFor="let role of availableRoles" [value]="role" [selected]="role === form.get('role')?.value">
             {{ role }}
           </option>
         </select>
